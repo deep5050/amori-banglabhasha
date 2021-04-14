@@ -163,7 +163,7 @@ def make_story():
 
     f = open(f"./stories/prothomalo/{file_name}.md", "w")
     f.write(
-        f"<div align=center> <img align=center src='../images/prothomalo/{file_name}' width=500px >\n\n"
+        f"<div align=center> <img align=center src='../images/prothomalo/{file_name}.jpg' width=500px >\n\n"
     )
     f.write(f"<h2 align=center>{story['name']}</h4>")
     f.write(f"<h3 align=center>{story['author']}</h3></div>\n\n")
