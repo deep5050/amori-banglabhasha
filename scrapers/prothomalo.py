@@ -14,7 +14,7 @@ base_url = "https://www.prothomalo.com"
 # if chromedriver is not added to the PATH, uncomment the below line
 # webdriver.Chrome(executable_path="./driver/chromedriver")
 options = webdriver.ChromeOptions()
-options.add_argument("headless") # headless mode, suitable for CI/CD
+options.add_argument("headless")  # headless mode, suitable for CI/CD
 
 # start chrome browser
 browser = webdriver.Chrome(chrome_options=options)
@@ -44,7 +44,7 @@ def get_story_name():
     story_name = ""
     if len(_name) != 0:
         story_name = _name
-        return story_name # got the right story name
+        return story_name  # got the right story name
     else:
         raise Exception("Error: no story name found")
 
@@ -66,7 +66,7 @@ def get_story_author():
 
     if len(_story_author) != 0:
         author = _story_author
-        return author # got the right author name
+        return author  # got the right author name
     else:
         raise Exception("Error: author name not found")
 
@@ -104,10 +104,13 @@ def get_main_image():
             except:
                 try:
                     # even older version
-                    _img_section = soup.find_all("div",class_="story-card-m__wrapper__ounrk story-card-m__bn-wrapper__OgEBK story-card-m__left-align__2JTUo")[0]
+                    _img_section = soup.find_all(
+                        "div",
+                        class_="story-card-m__wrapper__ounrk story-card-m__bn-wrapper__OgEBK story-card-m__left-align__2JTUo",
+                    )[0]
                     _img_src = _img_section.find_all("img")[0]["src"]
                     _img_src = _img_src.split("?")[0]
-                    
+
                 except:
                     print("Warning: no method worked for finding the image src")
                     return ""
@@ -131,7 +134,7 @@ def get_story_text():
     lines = []
     for _div in _text_divs:
         p = _div.find_all("p")
-        
+
         # writing all the story lines
         for _p in p:
             lines.append(_p.text)
@@ -163,18 +166,19 @@ def make_story():
     story_name = story_name.strip().replace(" ", "-")
     author_name = story["author"]
     author_name = author_name.strip().replace(" ", "-")
-    
+
     file_name = f"{story_name}@{author_name}"
-    
+
     print(f"making story: {file_name}")
 
     f = open(f"./stories/prothomalo/{file_name}.md", "w")
     f.write("<div align=center>")
-    
+
     # if the story has a valid image src write it
-    if story['img_src'] != "":
+    if story["img_src"] != "":
         write_image(file_name)
-        f.write(f" <img align=center src='../images/prothomalo/{file_name}.jpg' width=500px >\n\n" 
+        f.write(
+            f" <img align=center src='../images/prothomalo/{file_name}.jpg' width=500px >\n\n"
         )
 
     f.write(f"<h2 align=center>{story['name']}</h4>")
@@ -182,7 +186,7 @@ def make_story():
 
     for line in story["text"]:
         f.write(f"{line}\n\n")
-    
+
     f.close()
     print("completed :)")
 
