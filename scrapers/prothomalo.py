@@ -3,28 +3,29 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
 import shutil
-import sys
 
+# getting the url to scrape
 url_file = open("./url.txt", "r")
-link = url_file.readline()
+url = url_file.readline()
 url_file.close()
 
 base_url = "https://www.prothomalo.com"
 
-# webdriver.Chrome(executable_path="../driver/")
+# if chromedriver is not added to the PATH, uncomment the below line
+# webdriver.Chrome(executable_path="./driver/chromedriver")
 options = webdriver.ChromeOptions()
-options.add_argument("headless")
+options.add_argument("headless") # headless mode, suitable for CI/CD
 
 # start chrome browser
 browser = webdriver.Chrome(chrome_options=options)
-browser.get(link)
+browser.get(url)
 
 
-# scrolling
-
+# scrolling to get the lazy-loading image src
 lastHeight = browser.execute_script("return document.body.scrollHeight")
 html = browser.page_source
 browser.quit()
+
 soup = BeautifulSoup(html, "lxml")
 
 story = {}
@@ -43,15 +44,14 @@ def get_story_name():
     story_name = ""
     if len(_name) != 0:
         story_name = _name
-        return story_name
+        return story_name # got the right story name
     else:
-        raise Exception("Sorry, no story name found")
+        raise Exception("Error: no story name found")
 
 
 def get_story_author():
     global soup
     _story_author_section = soup.find("div", class_="author-name-location-wrapper")
-    # print(_story_author_section)
     _story_author = _story_author_section.find_all("span")[0].text
 
     if _story_author == "" or _story_author == "লেখা":
@@ -63,15 +63,17 @@ def get_story_author():
             _story_author = _story_author_section.find_all("a")[0].text
 
     author = ""
+
     if len(_story_author) != 0:
         author = _story_author
-        return author
+        return author # got the right author name
     else:
-        raise Exception("author name not found")
+        raise Exception("Error: author name not found")
 
 
 def get_main_image():
     global soup
+
     _img_src = ""
     _img_section = ""
 
@@ -100,13 +102,15 @@ def get_main_image():
                 _img_src = _img_section.find_all("img")[0]["src"]
                 _img_src = _img_src.split("?")[0]
             except:
-                 # even older version
-                _img_section = soup.find_all(
-                    "div",
-                    class_="story-card-m__wrapper__ounrk story-card-m__bn-wrapper__OgEBK story-card-m__left-align__2JTUo",
-                )[0]
-                _img_src = _img_section.find_all("img")[0]["src"]
-                _img_src = _img_src.split("?")[0]
+                try:
+                    # even older version
+                    _img_section = soup.find_all("div",class_="story-card-m__wrapper__ounrk story-card-m__bn-wrapper__OgEBK story-card-m__left-align__2JTUo")[0]
+                    _img_src = _img_section.find_all("img")[0]["src"]
+                    _img_src = _img_src.split("?")[0]
+                    
+                except:
+                    print("Warning: no method worked for finding the image src")
+                    return ""
 
     main_image_url = ""
 
@@ -114,7 +118,7 @@ def get_main_image():
         main_image_url = _img_src
         return main_image_url
     else:
-        raise Exception("image not found")
+        raise Exception("Error: in finding image src")
 
 
 def get_story_text():
@@ -123,22 +127,24 @@ def get_story_text():
     _text_divs = _story_text_section.find_all(
         "div", class_="story-element story-element-text"
     )
+
     lines = []
     for _div in _text_divs:
         p = _div.find_all("p")
-
+        
+        # writing all the story lines
         for _p in p:
             lines.append(_p.text)
 
     if len(lines) != 0:
         return lines
     else:
-        raise Exception("no text found")
+        raise Exception("Error: no story text found")
 
 
 def get_other_images():
     # other small image's url
-    other_image_url = ""
+    pass
 
 
 def write_image(file_name):
@@ -157,32 +163,44 @@ def make_story():
     story_name = story_name.strip().replace(" ", "-")
     author_name = story["author"]
     author_name = author_name.strip().replace(" ", "-")
+    
     file_name = f"{story_name}@{author_name}"
+    
     print(f"making story: {file_name}")
-    write_image(file_name)
 
     f = open(f"./stories/prothomalo/{file_name}.md", "w")
-    f.write(
-        f"<div align=center> <img align=center src='../images/prothomalo/{file_name}.jpg' width=500px >\n\n"
-    )
+    f.write("<div align=center>")
+    
+    # if the story has a valid image src write it
+    if story['img_src'] != "":
+        write_image(file_name)
+        f.write(f" <img align=center src='../images/prothomalo/{file_name}.jpg' width=500px >\n\n" 
+        )
+
     f.write(f"<h2 align=center>{story['name']}</h4>")
-    f.write(f"<h3 align=center>{story['author']}</h3></div>\n\n")
+    f.write(f"<h3 align=center>{story['author']}</h3>\n</div>\n\n")
+
     for line in story["text"]:
         f.write(f"{line}\n\n")
+    
     f.close()
     print("completed :)")
 
 
 def get_story():
     global story
+
     story["name"] = get_story_name()
     story["author"] = get_story_author()
     story["text"] = get_story_text()
     story["img_src"] = get_main_image()
+
     make_story()
 
 
 get_story()
+
+
 # print(get_main_image())
 # print(get_story_text())
 # print(get_story_author())
