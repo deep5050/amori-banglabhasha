@@ -11,7 +11,7 @@ from selenium.webdriver.chrome.options import Options
 
 
 # if chromedriver is not added to the PATH, uncomment the below line
-# webdriver.Chrome(executable_path="./driver/chromedriver")
+#webdriver.Chrome(executable_path="./driver/")
 options = webdriver.ChromeOptions()
 
 
@@ -206,12 +206,12 @@ def get_story():
 
 
 # getting the url to scrape
-input_file = open ('result.json')
+input_file = open ('./scratch_pad/result.json')
 urls = json.load(input_file)
 input_file.close()
 base_url = "https://www.prothomalo.com"
 print(len(urls))
-for i in range(70,80):
+for i in range(85,87):
     url = urls[i]
     print(url)
     global browser
@@ -230,6 +230,9 @@ for i in range(70,80):
     browser.quit()
 
     soup = BeautifulSoup(html, "lxml")
-    get_story()
+    try:
+        get_story()
+    except:
+        print("something went wrong, skipping this one....")
     sleep(randint(3,6))
 

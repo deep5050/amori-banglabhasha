@@ -1,12 +1,3 @@
-<div align=center >
-
-  <img align=center src=public/logo.jpg >
-  <h1 align=center> amori-banglabhasha </h1>
-  <h1 align=center> আ মরি বাংলা ভাষা </h1>
-  <p align=center > Collection of stories scraped from various Bangladeshi newspapers </p>
-  </div>
-
-### [Source: Prothom Alo](./stories/prothomalo)  👈
 1. [অন্তর্লীন-অন্ধকার@স্মৃতি-ভদ্র](./stories/prothomalo/অন্তর্লীন-অন্ধকার@স্মৃতি-ভদ্র.md)
 
 1. [যা-কিছু-ঘটবে-বলে!@সৈকত-শুভ্র-আইচ](./stories/prothomalo/যা-কিছু-ঘটবে-বলে!@সৈকত-শুভ্র-আইচ.md)
@@ -187,11 +178,3 @@
 
 1. [চোখে-চোখে@হুমায়ূন-শফিক](./stories/prothomalo/চোখে-চোখে@হুমায়ূন-শফিক.md)
 
-
-
-
-
-</div align=center>
-<p align=center> <img src=public/prothomalo.jpg width=100px> </p>
-<p align=center> <img src=public/bondhushava.jpg width=100px> </p>
-</div>
