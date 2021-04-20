@@ -4,6 +4,8 @@
   <h1 align=center> amori-banglabhasha </h1>
   <h1 align=center> আ মরি বাংলা ভাষা </h1>
   <p align=center > Collection of stories scraped from various Bangladeshi newspapers </p>
+    <p align=center> New stories are added on every sunday morning automatically </p>
+  <p align=center><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/deep5050/amori-banglabhasha/Automated%20crawling?style=for-the-badge"></p>
   </div>
 
 ### [Source: Prothom Alo](./stories/prothomalo)  👈
@@ -147,7 +149,11 @@
 
 
 
-</div align=center>
+
+<div align=center>
 <p align=center> <img src=public/prothomalo.jpg width=100px> </p>
 <p align=center> <img src=public/bondhushava.jpg width=100px> </p>
 </div>
+
+### Related
+[![deep5050/Abosar - GitHub](https://gh-card.dev/repos/deep5050/Abosar.svg)](https://github.com/deep5050/Abosar)
