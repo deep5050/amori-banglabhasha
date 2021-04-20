@@ -3,7 +3,7 @@ name: Automated crawling
 on:
   push:
     branches:
-      - main
+      - development
   schedule:
     - cron: '30 01 * * SUN'
 jobs:
