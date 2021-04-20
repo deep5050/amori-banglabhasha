@@ -11,7 +11,7 @@ from selenium.webdriver.chrome.options import Options
 
 
 # if chromedriver is not added to the PATH, uncomment the below line
-#webdriver.Chrome(executable_path="./driver/")
+# webdriver.Chrome(executable_path="./driver/")
 options = webdriver.ChromeOptions()
 
 
@@ -187,7 +187,7 @@ def get_story():
     story["name"] = ""
     story["author"] = ""
     story["text"] = ""
-    story["img_src"] = ""   
+    story["img_src"] = ""
 
     story["name"] = get_story_name()
     story["author"] = get_story_author()
@@ -206,12 +206,16 @@ def get_story():
 
 
 # getting the url to scrape
-input_file = open ('./scratch_pad/result.json')
-urls = json.load(input_file)
+input_file = open('./urls','r')
+urls = input_file.readlines()
 input_file.close()
+
+
 base_url = "https://www.prothomalo.com"
 print(len(urls))
-for i in range(85,87):
+
+
+for i in range(0, len(urls)):
     url = urls[i]
     print(url)
     global browser
@@ -220,7 +224,7 @@ for i in range(85,87):
     ua = UserAgent()
     userAgent = ua.random
     print(userAgent)
-    options.add_argument(f'user-agent={userAgent}')
+    options.add_argument(f"user-agent={userAgent}")
     options.add_argument("headless")  # headless mode, suitable for CI/CD
     browser = webdriver.Chrome(chrome_options=options)
     browser.get(url)
@@ -234,5 +238,4 @@ for i in range(85,87):
         get_story()
     except:
         print("something went wrong, skipping this one....")
-    sleep(randint(3,6))
-
+    sleep(randint(3, 6))

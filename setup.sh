@@ -1,3 +1,1 @@
-pip install BeautifulSoup4 lxml selenium
-
-export PATH=$PATH:~/Desktop/amori-banglabhasha/driver
+pip3 install BeautifulSoup4 lxml selenium requests fake_useragent
