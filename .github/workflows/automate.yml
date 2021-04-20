@@ -1,0 +1,45 @@
+
+name: GitHub CI
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '30 01 * * SUN'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+      with:
+        lfs: true
+        
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+    - name: pip installs
+      run: pip3 install BeautifulSoup4 lxml selenium requests fake-useragent
+      
+    - name: setup chrome and driver
+      run: ./chrome.sh
+
+    - name: export to PATH
+      run: source sourcefile
+      
+    - name: fetch fresh story links
+      run: python3 scratch_pad/prothomalo_links.py
+      
+    - name: make stories
+      run: python3 scrapers/bulk_crawl_prothomalo.py
+      
+    - name: update README
+      run: python3 scratch_pad/link_make.py
+      
+      
+    - name: publish changes
+      uses: mikeal/publish-to-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH_NAME: 'main'
