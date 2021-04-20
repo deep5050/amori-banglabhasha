@@ -1,9 +1,9 @@
 
-name: GitHub CI
+name: Automated crawling
 on:
   push:
     branches:
-      - master
+      - main
   schedule:
     - cron: '30 01 * * SUN'
 jobs:
