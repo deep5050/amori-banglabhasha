@@ -6,6 +6,10 @@
   <p align=center > Collection of stories scraped from various Bangladeshi newspapers </p>
     <p align=center> New stories are added on every sunday morning automatically </p>
   <p align=center><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/deep5050/amori-banglabhasha/Automated%20crawling?style=for-the-badge"></p>
+  <p align=center>
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/deep5050/amori-banglabhasha?style=for-the-badge">
+  <img alt="GitHub" src="https://img.shields.io/github/license/deep5050/amori-banglabhasha?style=for-the-badge">
+  </p>
   </div>
 
 ### [Source: Prothom Alo](./stories/prothomalo)  👈
